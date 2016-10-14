@@ -1,0 +1,127 @@
+{
+	"variables": [],
+	"info": {
+		"name": "GolangTest",
+		"_postman_id": "2171fa7c-a62e-8136-8acf-3eba9db7616f",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Value",
+			"description": "",
+			"item": [
+				{
+					"name": "CreateValue",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Successful POST request\"] = responseCode.code === 201 || responseCode.code === 202;\ntests[\"Response time is less than 200ms\"] = responseTime < 200;\ntests[\"Body is correct\"] = responseBody === \"Value TestVal\"+postman.getGlobalVariable(\"Timestamp\")+\" writed succeed.\";"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": "postman.setGlobalVariable(\"Timestamp\", Date.now());"
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:8080/value/TestVal{{Timestamp}}/3133",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							},
+							{
+								"key": "test",
+								"value": "test",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Performing a simple `GET` request to this endpoint returns status code `401 Unauthorized` with `WWW-Authenticate` header containing information to successfully authenticate subsequent requests.\nThe `WWW-Authenticate` header must be processed to extract `realm` and `nonce` values to hash subsequent requests.\n\nWhen this request is executed within Postman, the script attached with this request does the hard work of extracting realm and nonce from the header and set it as [global variables](https://www.getpostman.com/docs/environments#global-variables?source=echo-collection-app-onboarding) named `echo_digest_nonce` and `echo_digest_realm`.\nThese variables are re-used in subsequent request for seamless integration of the two requests."
+					},
+					"response": []
+				},
+				{
+					"name": "Get created value",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Response time is less than 200ms\"] = responseTime < 200;\ntests[\"Body is correct\"] = responseBody === \"3133\";"
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:8080/value/TestVal{{Timestamp}}",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete value",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\ntests[\"Response time is less than 200ms\"] = responseTime < 200;\ntests[\"Body is correct\"] = responseBody === \"Deleted succeed.\";"
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:8080/value/TestVal{{Timestamp}}",
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get deleted value",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 404\"] = responseCode.code === 404;\ntests[\"Response time is less than 200ms\"] = responseTime < 200;\ntests[\"Body is correct\"] = responseBody === \"Value not found\";"
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:8080/value/TestVal",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get deleted value"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
